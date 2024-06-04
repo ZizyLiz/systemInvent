@@ -54,17 +54,27 @@ class KategoriController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Kategori $kategori)
+    public function edit(Kategori $kategori, string $id)
     {
-        //
+        $category = Kategori::findOrFail($id);
+        $value = ['A', 'M', 'BHP', 'BTHP'];
+        return view('categories.edit', compact('category', 'value'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'category' => ['required',Rule::in(['A', 'M', 'BHP', 'BTHP'])],
+            'description' => ['required']
+        ]);
+
+        $category = Kategori::findOrFail($id);
+
+        $category->update($request->all());
+        return redirect()->route('categories.index')->with(['success' => 'mantap']);
     }
 
     /**

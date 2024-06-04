@@ -2,23 +2,22 @@
 @section('content')
     <div class="container mt-5 mb-5">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 my-auto">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 100%">
+                        <h1>KATEGORI</h1>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <h3>{{ $product->title }}</h3>
-                        <hr/>
+                        <h3>{{$category->category}}</h3>
+                        <hr/>   
                         <code>
-                            <p>{!! $product->description !!}</p>
+                            <p>{!! $category->description !!}</p>
                         </code>
                         <hr/>
-                        <p>Stock : {{ $product->stock }}</p>
                     </div>
                 </div>
             </div>

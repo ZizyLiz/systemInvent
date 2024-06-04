@@ -45,9 +45,10 @@ class KategoriController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kategori $kategori)
+    public function show(Kategori $kategori, string $id)
     {
-        //
+        $category = Kategori::findOrFail($id);
+        return view('categories.show', compact('category'));
     }
 
     /**

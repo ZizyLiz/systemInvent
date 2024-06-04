@@ -32,6 +32,9 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" name="password" class="form-control" id="password" required>
                         </div>
+                        <div>
+                            <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+                        </div>
                         <div class="mb-3">
                             <div class="d-grid">
                                 <button class="btn btn-primary">Login</button>

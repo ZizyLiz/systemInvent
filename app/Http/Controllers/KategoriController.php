@@ -69,8 +69,9 @@ class KategoriController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kategori $kategori)
+    public function destroy(Kategori $kategori, string $id)
     {
-        //
+        Kategori::findOrFail($id);
+        
     }
 }

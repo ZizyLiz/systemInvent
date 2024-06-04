@@ -168,5 +168,19 @@
                 </div>
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            @if(session('success'))
+                Swal.fire({
+                    title: "Sweet!",
+                    text: "{{ session('success') }}",
+                    imageUrl: "https://i.imgflip.com/6q6wvs.jpg",
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: "Custom image"
+
+            });
+            @endif
+        </script>
     </body>
 </html>

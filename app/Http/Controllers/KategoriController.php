@@ -71,7 +71,8 @@ class KategoriController extends Controller
      */
     public function destroy(Kategori $kategori, string $id)
     {
-        Kategori::findOrFail($id);
-        
+        $category = Kategori::findOrFail($id);
+        $category->delete();
+        return redirect()->route('categories.index')->with(['success' => 'ilang']);
     }
 }

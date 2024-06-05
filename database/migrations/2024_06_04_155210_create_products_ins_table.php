@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('products_in', function (Blueprint $table) {
             $table->id();
+            $table->date('tgl_masuk');
+            $table->integer('qty_masuk');
+            $table->unsignedSmallInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');
             $table->timestamps();
         });
     }

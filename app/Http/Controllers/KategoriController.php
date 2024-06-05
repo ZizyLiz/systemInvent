@@ -83,7 +83,12 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori, string $id)
     {
         $category = Kategori::findOrFail($id);
-        $category->delete();
-        return redirect()->route('categories.index')->with(['success' => 'ilang']);
+        try {
+            $category->delete();
+            return redirect()->route('categories.index')->with(['success' => 'ilang']);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorMessage = $e->getMessage();
+            return redirect()->route('categories.index')->with(['error' => $errorMessage]);
+        }
     }
 }

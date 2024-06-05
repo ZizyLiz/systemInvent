@@ -9,28 +9,24 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">PRODUCT</th>
                                 <th scope="col">DATE</th>
+                                <th scope="col">PRODUCT</th>
                                 <th scope="col">QUANTITY</th>
                                 <th scope="col" style="width: 20%">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($products as $product)
+                            @forelse ($productsIn as $product)
                                 <tr>
-                                    <td class="text-center">
-                                        <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 150px">
-                                    </td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ "Rp " . number_format($product->price,2,',','.') }}</td>
-                                    <td>{{ $product->stock }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                    <td class="align-middle">{{ $product->tgl_masuk }}</td>
+                                    <td class="align-middle">{{ $product->product->title }}</td>
+                                    <td class="align-middle">{{ $product->qty_masuk }}</td>
+                                    <td class="text-center align-middle">
+                                        <form onsubmit="return deleteData(this)" action="{{ route('productsIn.destroy', $product->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
+                                            <a href="{{ route('productsIn.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                            <a href="{{ route('productsIn.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                             <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
                                         </form>
                                     </td>
@@ -42,7 +38,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                    {{ $products->links() }}
                 </div>
             </div>
         </div>

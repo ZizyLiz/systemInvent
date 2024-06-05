@@ -12,7 +12,7 @@
                                 <th scope="col">IMAGE</th>
                                 <th scope="col">TITLE</th>
                                 <th scope="col">PRICE</th>
-                                <th scope="col">STOCK</th>
+                                <th scope="col" style="width: 7%">STOCK</th>
                                 <th scope="col" style="width: 20%">ACTIONS</th>
                             </tr>
                         </thead>
@@ -22,15 +22,15 @@
                                     <td class="text-center">
                                         <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 150px">
                                     </td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ "Rp " . number_format($product->price,2,',','.') }}</td>
-                                    <td>{{ $product->stock }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
-                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('products.destroy', $product->id) }}" method="POST">
+                                    <td class=" align-middle">{{ $product->title }}</td>
+                                    <td class=" align-middle">{{ "Rp " . number_format($product->price,2,',','.') }}</td>
+                                    <td class=" align-middle">{{ $product->stock }}</td>
+                                    <td class="text-center align-middle">
+                                        <form onsubmit="return deleteData(this)" action="{{ route('products.destroy', $product->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
+                                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-dark">SHOW</a>
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                             <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
                                         </form>
                                     </td>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ProductsInController;
 
 
 Route::group(['middleware' => 'guest'], function () {
@@ -23,5 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('dashboard');
     Route::delete('logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('products', ProductController::class);
-    // Route::resource('categories', KategoriController::class);
+    Route::resource('categories', KategoriController::class);
+    Route::resource('productsIn', ProductsInController::class);
   });

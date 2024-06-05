@@ -22,7 +22,7 @@
                                     <td class="text-center">{{ $cat->category }}</td>
                                     <td class="text-center">{{ $cat->description}}</td>
                                     <td class="text-center">
-                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('categories.destroy', $cat->id) }}" method="POST">
+                                        <form onsubmit="return deleteData(this);" action="{{ route('categories.destroy', $cat->id) }}" method="POST">
                                             <a href="{{ route('categories.show', $cat->id) }}" class="btn btn-sm btn-dark">SHOW</a>
                                             <a href="{{ route('categories.edit', $cat->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                             @csrf

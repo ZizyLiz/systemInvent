@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('products_in');
         Schema::create('products_in', function (Blueprint $table) {
             $table->id();
-            $table->date('tgl_masuk');
+            $table->date('tgl_masuk')->format('Y-m-d');
             $table->integer('qty_masuk');
             $table->unsignedSmallInteger('product_id');
             $table->foreign('product_id')->references('id')->on('product')->onDelete('restrict');

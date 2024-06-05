@@ -12,7 +12,9 @@ class ProductsInController extends Controller
      */
     public function index()
     {
-        //
+        $productsIn = ProductsIn::all();
+        // dd($productsIn);
+        return view('productsIn.index', compact('productsIn'));
     }
 
     /**
@@ -34,9 +36,10 @@ class ProductsInController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductsIn $productsIn)
+    public function show(string $id)
     {
-        //
+        $productIn = ProductsIn::findOrFail($id);
+        return view('productsIn.show',compact('productIn'));        
     }
 
     /**
@@ -58,8 +61,13 @@ class ProductsInController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductsIn $productsIn)
-    {
-        //
+    public function destroy(string $id){
+        $productIn = ProductsIn::findOrFail($id);
+        if(is_null($productIn)){
+            return redirect()->route('productsIn.index')->with(['error' => 'Data tidak ditemukan']);
+        } else{
+            $productIn->delete();
+            return redirect()->route('productsIn.index')->with(['success' => 'Data berhasil dihapus']);
+        }
     }
 }

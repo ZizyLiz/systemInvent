@@ -21,7 +21,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {
         return view('layout.master');
     })->name('dashboard');
+    Route::delete('logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('products', ProductController::class);
     Route::resource('categories', KategoriController::class);
-    Route::delete('logout', [AuthController::class, 'logout'])->name('logout');
   });

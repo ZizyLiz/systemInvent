@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $category = Kategori::all();
+        return view('products.create',compact('category'));
     }
 
     /**
@@ -41,7 +43,7 @@ class ProductController extends Controller
 
         $image = $request->file('image');
         $image->storeAs('public/products', $image->hashName());
-        
+
         Product::create([
             'title' => $request->title,
             'image' => $image->hashName(),
@@ -50,7 +52,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'category' => $request->category
         ]);
-
+    
         return redirect()->route('products.index')->with(['success' => 'pepek']);
     }
 
@@ -69,6 +71,7 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::findOrFail($id);
+        $category = Kategori::all();
         return view('products.edit', compact('product'));
     }
 

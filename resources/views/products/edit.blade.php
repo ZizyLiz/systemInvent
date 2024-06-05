@@ -35,6 +35,21 @@
                             </div>
 
                             <div class="form-group mb-3">
+                                <label class="font-weight-bold">KATEGORI</label>
+                                <select class="form-control" name="category" aria-label="Default select example">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($category as $v)
+                                        <option value="{{$v->id}}">{{$v->category}}</option>
+                                    @endforeach
+                                </select>
+                                @error('title')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
                                 <label class="font-weight-bold">DESCRIPTION</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="5" placeholder="Masukkan Description Product">{{ old('description', $product->description) }}</textarea>
                             

@@ -17,4 +17,9 @@ class Product extends Model
         'stock',
         'category'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
 }

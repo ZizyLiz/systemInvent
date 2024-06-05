@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +27,7 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'category' => 'required|in:A,M,BHP,BTHP',
+            'category' => ['required',Rule::in(['A', 'M', 'BHP', 'BTHP'])],
             'description' => 'required|max:255',
         ]);
 

@@ -35,10 +35,7 @@ class KategoriController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $category = Kategori::create([
-            'category' => $request->category,
-            'description' => $request->description,
-        ]);
+        $category = Kategori::create($request->all());
 
         return response()->json($category, 201);
     }
@@ -61,7 +58,7 @@ class KategoriController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
-            'category' => 'required|in:A,M,BHP,BTHP',
+            'category' => ['required', Rule::in(['A', 'M', 'BHP', 'BTHP'])],
             'description' => 'required|max:255',
         ]);
 

@@ -37,7 +37,7 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">KATEGORI</label>
                                 <select class="form-control" name="category" aria-label="Default select example">
-                                    <option value="">--Pilih--</option>
+                                    <option value="{{$product->category}}">--Pilih--</option>
                                     @foreach ($category as $v)
                                         <option value="{{$v->id}}">{{$v->category}}</option>
                                     @endforeach
@@ -51,7 +51,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">DESCRIPTION</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="5" placeholder="Masukkan Description Product">{{ old('description', $product->description) }}</textarea>
+                                <textarea class="form-control @error('description') is-invalid @enderror" name="description" rows="5" placeholder="Masukkan Description Product">{!! old('description', $product->description) !!}</textarea>
                             
                                 <!-- error message untuk description -->
                                 @error('description')
@@ -99,4 +99,8 @@
             </div>
         </div>
     </div>
+
+    <script>
+        CKEDITOR.replace( 'description' );
+    </script>
 @endsection

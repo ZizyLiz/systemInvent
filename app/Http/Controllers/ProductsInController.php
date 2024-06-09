@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\ProductsIn;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,8 @@ class ProductsInController extends Controller
      */
     public function create()
     {
-        //
+        $category = Kategori::all();
+        return view('productsIn.create', compact('category'));
     }
 
     /**

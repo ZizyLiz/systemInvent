@@ -36,11 +36,13 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|min:3',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:3096',
-            'description' => 'required|min:3',
+            'description' => 'required|string|min:3',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
             'category' => 'required|numeric'
         ]);
+
+        $desc = strip_tags($request->description);
 
         $image = $request->file('image');
         $image->storeAs('public/products', $image->hashName());
@@ -48,7 +50,7 @@ class ProductController extends Controller
         Product::create([
             'title' => $request->title,
             'image' => $image->hashName(),
-            'description' => $request->description,
+            'description' => $desc,
             'price' => $request->price,
             'stock' => $request->stock,
             'category' => $request->category
@@ -73,7 +75,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $category = Kategori::all();
-        return view('products.edit', compact('product'));
+        return view('products.edit', compact('product', 'category'));
     }
 
     /**

@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card border-0 shadow-sm rounded">
                 <div class="card-body">
-                    <a href="{{ route('products.create') }}" class="btn btn-md btn-success mb-3">ADD PRODUCT</a>
+                    <a href="{{ route('productsIn.create') }}" class="btn btn-md btn-success mb-3">ADD PRODUCT</a>
                     <table class="table table-bordered">
                         <thead>
                             <tr>

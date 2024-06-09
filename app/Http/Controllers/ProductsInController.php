@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
+use App\Models\Product;
 use App\Models\ProductsIn;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductsInController extends Controller
 {
@@ -23,8 +24,8 @@ class ProductsInController extends Controller
      */
     public function create()
     {
-        $category = Kategori::all();
-        return view('productsIn.create', compact('category'));
+        $product = Product::all();
+        return view('productsIn.create', compact('product'));
     }
 
     /**
@@ -32,7 +33,18 @@ class ProductsInController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'tgl_masuk' => 'required',
+            'qty_masuk' => 'required',
+            'product_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        } else{
+            ProductsIn::create($request->all());
+            return redirect()->route('productsIn.index')->with(['success' => 'Data berhasil disimpan']);
+        }
     }
 
     /**
@@ -49,7 +61,8 @@ class ProductsInController extends Controller
      */
     public function edit(ProductsIn $productsIn)
     {
-        //
+        $product = Product::all();
+        return view('productsIn.edit', compact('product'));
     }
 
     /**

@@ -14,7 +14,7 @@ class ProductsInController extends Controller
      */
     public function index()
     {
-        $productsIn = ProductsIn::all();
+        $productsIn = ProductsIn::latest()->paginate();
         // dd($productsIn);
         return view('productsIn.index', compact('productsIn'));
     }
@@ -24,7 +24,7 @@ class ProductsInController extends Controller
      */
     public function create()
     {
-        $product = Product::all();
+        $product = Product::all('id','title');
         return view('productsIn.create', compact('product'));
     }
 

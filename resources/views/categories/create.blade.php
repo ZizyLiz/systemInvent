@@ -13,8 +13,8 @@
                             <label class="font-weight-bold">KATEGORI</label>
                             <select class="form-control" name="category" aria-label="Default select example">
                                 <option value="">--Pilih--</option>
-                                @foreach ($value as $v)
-                                    <option value="{{$v}}">{{$v}}</option>
+                                @foreach ($value as $key => $v)
+                                    <option value="{{$key}}">{{$v}}</option>
                                 @endforeach
                             </select>
                             @error('title')

@@ -59,18 +59,19 @@ class ProductsInController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductsIn $productsIn)
+    public function edit(string $id)
     {
-        $product = Product::all();
-        return view('productsIn.edit', compact('product'));
+        $product = Product::all('id','title');
+        $productIn = ProductsIn::findOrFail($id);
+        return view('productsIn.edit', compact('product', 'productIn'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductsIn $productsIn)
+    public function update(Request $request, string $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

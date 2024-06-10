@@ -47,7 +47,7 @@
                                 <select class="form-control" name="category" aria-label="Default select example">
                                     <option value="">--Pilih--</option>
                                     @foreach ($category as $v)
-                                        <option value="{{$v->id}}">{{$v->category}}</option>
+                                        <option value="{{$v->id}}">{{$v->category . " - " . $v->description}}</option>
                                     @endforeach
                                 </select>
                                 @error('title')

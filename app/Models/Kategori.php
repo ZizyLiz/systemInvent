@@ -16,15 +16,15 @@ class Kategori extends Model
 
     public function getCategoryAttribute($value)
     {
-        if($value == 'A'){
-            return 'ALAT';
-        } elseif($value == 'M'){
-            return 'MODAL';
-        } elseif($value == 'BHP'){
-            return 'BARANG HABIS PAKAI';
-        } elseif($value == 'BTHP'){
-            return 'BARANG TIDAK HABIS PAKAI';
+        switch ($value) {
+            case 'A':
+                return 'ALAT';
+            case 'M':
+                return 'MODAL';
+            case 'BHP':
+                return 'BARANG HABIS PAKAI';
+            case 'BTHP':
+                return 'BARANG TIDAK HABIS PAKAI';
         }
-        return $value;
     }
 }

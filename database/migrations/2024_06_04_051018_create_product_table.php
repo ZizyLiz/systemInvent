@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->bigInteger('price');
             $table->integer('stock')->default(0);
-            $table->unsignedSmallInteger('category');
-            $table->foreign('category')->references('id')->on('category')->onDelete('restrict');
+            $table->unsignedSmallInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('category')->onDelete('restrict');
             $table->timestamps();
         });
     }

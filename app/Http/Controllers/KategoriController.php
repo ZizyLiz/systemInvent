@@ -38,7 +38,7 @@ class KategoriController extends Controller
             'BHP' => 'BARANG HABIS PAKAI',
             'BTHP' => 'BARANG TIDAK HABIS PAKAI'
         ];
-        return view('categories.create',compact('value', 'test'));
+        return view('categories.create',compact('value'));
     }
 
     /**

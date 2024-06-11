@@ -53,7 +53,7 @@ class ProductController extends Controller
             'description' => $desc,
             'price' => $request->price,
             'stock' => $request->stock,
-            'category' => $request->category
+            'category_id' => $request->category
         ]);
     
         return redirect()->route('products.index')->with(['success' => 'pepek']);
@@ -106,7 +106,7 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'price' => $request->price,
                 'stock' => $request->stock,
-                'category' => $request->category
+                'category_id' => $request->category
             ]);
             
         } else {
@@ -115,7 +115,7 @@ class ProductController extends Controller
                 'description' => $request->description,
                 'price' => $request->price,
                 'stock' => $request->stock,
-                'category' => $request->category
+                'category_id' => $request->category
 
             ]);
         }

@@ -20,7 +20,7 @@ class AuthController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->save();
-        return back()->with('success', 'Register Berhasil');
+        return redirect()->route('login')->with('success', 'Register Berhasil');
     }
 
     public function login()

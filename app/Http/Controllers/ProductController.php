@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -33,14 +34,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'title' => 'required|min:3',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:3096',
             'description' => 'required|string|min:3',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-            'category' => 'required|numeric'
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|numeric|min:0',
+            'category' => 'required|numeric',
+        ], [
+            'stock.min' => 'Stock must be POSITIVE VALUE',
+            'price.min' => 'Ga bisa negative dawg'
         ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
 
         $desc = strip_tags($request->description);
 
@@ -83,14 +91,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'title' => 'required|min:3',
             'image' => 'image|mimes:jpg,jpeg,png|max:3096',
             'description' => 'required|min:3',
             'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-            'category' => 'required|numeric'
+            'stock' => 'required|numeric|min:0',
+            'category' => 'required|numeric',
+        ], [
+            'stock.min' => 'Stock must be POSITIVE VALUE'
         ]);
+
+        if($validator->fails()){
+            return back()->withErrors($validator)->withInput();
+        }
 
         $product = Product::findOrFail($id);
 

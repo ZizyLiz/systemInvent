@@ -20,7 +20,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">IMAGE</label>
-                                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" value="{{old('image')}}">
                             
                                 <!-- error message untuk image -->
                                 @error('image')
@@ -45,9 +45,9 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">KATEGORI</label>
                                 <select class="form-control" name="category" aria-label="Default select example">
-                                    <option value="">--Pilih--</option>
                                     @foreach ($category as $v)
-                                        <option value="{{$v->id}}">{{$v->category . " - " . $v->description}}</option>
+                                        <option value="{{$v->id}}"{{ old('category') == $v->id ? 'selected' : '' }}>
+                                            {{ $v->category . " - " . $v->description }}</option>
                                     @endforeach
                                 </select>
                                 @error('title')

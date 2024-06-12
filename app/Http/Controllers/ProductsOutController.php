@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductsIn;
 use App\Models\ProductsOut;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +34,13 @@ class ProductsOutController extends Controller
      */
     public function store(Request $request)
     {
+        $barangMasuk = ProductsIn::where('product_id', $request->product_id)->latest()->first();
         $validate = Validator::make(($request->all()), [
-            'tgl_keluar' => ['required', 'date'],
+            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : $barangMasuk->tgl_masuk],
             'qty_keluar' => ['required'],
             'product_id' => ['required', 'numeric'],
+        ],[
+            'after' => 'tanggal mu salah gobloug'
         ]);
         
         if($validate->fails()){

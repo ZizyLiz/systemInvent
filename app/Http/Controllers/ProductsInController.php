@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductsIn;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ProductsInController extends Controller
@@ -71,7 +72,25 @@ class ProductsInController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+        $validator = Validator::make($request->all(),[
+            'tgl_masuk' => 'required',
+            'qty_masuk' => 'required',
+            'product_id' => 'required',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        DB::beginTransaction();
+        try{
+            $productIn = ProductsIn::findOrFail($id);
+            $productIn->update($request->all());
+            DB::commit();
+            return redirect()->route('productsIn.index')->with(['success' => 'Entry Berhasil Diubah']);
+        } 
+        catch(\Exception $e){
+            DB::rollBack();
+            return back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**

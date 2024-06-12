@@ -5,22 +5,18 @@
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <img src="{{ asset('/storage/products/'.$product->image) }}" class="rounded" style="width: 100%">
+                        <img src="{{ asset('/storage/products/' . $productOut->product->image) }}" class="rounded" style="width: 100%">
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <h1>{{ $product->id}}</h1>
-                        <h3>{{ $product->title }}</h3>
+                        <h3>{{ $productOut->product->title }}</h3>
                         <hr/>
-                        <p>{{ "Rp " . number_format($product->price,2,',','.') }}</p>
-                        <code>
-                            <p>{!! $product->description !!}</p>
-                        </code>
+                        <p>{{ $productOut->tgl_keluar }}</p>
                         <hr/>
-                        <p>Stock : {{ $product->stock }}</p>
+                        <p>Quantity : {{ $productOut->qty_keluar }}</p>
                     </div>
                 </div>
             </div>

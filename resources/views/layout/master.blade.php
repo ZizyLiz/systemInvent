@@ -71,7 +71,7 @@
                         <a class="collapse-item" href="{{ url('categories') }}">Kategori</a>
                         <a class="collapse-item" href="{{ url('products') }}">Barang</a>
                         <a class="collapse-item" href="{{ url('productsIn') }}">Barang Masuk</a>
-                        <a class="collapse-item" href="{{ url('barangkeluar') }}">Barang Keluar</a>
+                        <a class="collapse-item" href="{{ url('productsOut') }}">Barang Keluar</a>
                     </div>
                 </div>
             </li>

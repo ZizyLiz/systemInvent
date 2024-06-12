@@ -40,7 +40,7 @@
                                 @forelse ($productsIn as $product)
                                     <tr>
                                         <td class="align-middle">{{ $product->tgl_masuk }}</td>
-                                        <td class="align-middle">{{ $product->product->title }}</td>
+                                        <td class="align-middle">{{ $product->title }}</td>
                                         <td class="align-middle">{{ $product->qty_masuk }}</td>
                                         <td class="text-center align-middle">
                                             <form onsubmit="return deleteData(this)"

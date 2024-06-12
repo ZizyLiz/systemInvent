@@ -13,7 +13,7 @@
                                 <form action="/productsOut" method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                                     @csrf
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="{{ request('search')}}">
+                                        <input type="text" name="search" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" value="{{ request('search')}}">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="submit">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -36,7 +36,7 @@
                                 @forelse ($productsOut as $item)
                                     <tr>
                                         <td class="align-middle">{{ $item->tgl_keluar }}</td>
-                                        <td class="align-middle">{{ $item->product->title }}</td>
+                                        <td class="align-middle">{{ $item->title }}</td>
                                         <td class="align-middle">{{ $item->qty_keluar }}</td>
                                         <td class="text-center align-middle">
                                             <form action="{{ route('productsOut.destroy', $item->id) }}" onsubmit="return deleteData(this)" method="POST">

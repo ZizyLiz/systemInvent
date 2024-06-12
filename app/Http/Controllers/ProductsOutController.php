@@ -14,9 +14,24 @@ class ProductsOutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productsOut = ProductsOut::all();
+        if($request->search){
+            $productsOut = DB::table('products_out')
+            ->leftJoin('product', 'product.id', '=', 'products_out.product_id')
+            ->select('products_out.id', 'products_out.tgl_keluar', 'products_out.qty_keluar', 'products_out.product_id', 'product.title')
+            ->where('products_out.id', 'like', '%'.$request->search.'%')
+            ->orWhere('products_out.tgl_keluar', 'like', '%'.$request->search.'%')
+            ->orWhere('product.title','like','%'.$request->search.'%')
+            ->orderByDesc('products_out.id')
+            ->paginate(5);
+        } else{
+            $productsOut = DB::table('products_out')
+            ->leftJoin('product', 'product.id', '=', 'products_out.product_id')
+            ->select('products_out.id', 'products_out.tgl_keluar', 'products_out.qty_keluar', 'products_out.product_id', 'product.title')
+            ->orderByDesc('products_out.id')
+            ->paginate(5);
+        }
         return view('productsOut.index', compact('productsOut'));
     }
 
@@ -35,17 +50,19 @@ class ProductsOutController extends Controller
     public function store(Request $request)
     {
         $barangMasuk = ProductsIn::where('product_id', $request->product_id)->latest()->first();
-        $validate = Validator::make(($request->all()), [
-            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : $barangMasuk->tgl_masuk],
-            'qty_keluar' => ['required'],
-            'product_id' => ['required', 'numeric'],
+        $sisaStock = Product::findOrFail($request->product_id)->stock;
+        $validate = $request->validate( [
+            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : ''],
+            'qty_keluar' => ['required','numeric', 'min:0', 'max:'.$sisaStock ],
+            'product_id' => ['required', 'numeric', 'exists:products_in,product_id'],
         ],[
-            'after' => 'tanggal mu salah gobloug'
+            'required' => 'This field is required',
+            'min' => 'Value minimal :min',
+            'after' => 'tanggal mu salah gobloug',
+            'exists' => 'tambah barang masuk dulu',
+            'max' => 'Kebanyakan dawg'
         ]);
-        
-        if($validate->fails()){
-            return back()->withErrors($validate)->withInput();
-        }
+
         DB::beginTransaction();
         try{
             $product = new ProductsOut();
@@ -88,10 +105,18 @@ class ProductsOutController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $barangMasuk = ProductsIn::where('product_id', $request->id)->latest()->first();
+        $sisaStock = Product::findOrFail($request->product_id)->stock;
         $validator = Validator::make($request->all(), [
-            'tgl_keluar' => ['required', 'date'],
-            'qty_keluar' => ['required', 'numeric'],
-            'product_id' => ['required', 'numeric'],
+            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : ''],
+            'qty_keluar' => ['required', 'numeric', 'max:'.$sisaStock],
+            'product_id' => ['required', 'numeric', 'exists:products_in,product_id'],
+        ],[
+            'required' => 'This field is required',
+            'min' => 'Value minimal :min',
+            'after' => 'tanggal mu salah gobloug',
+            'exists' => 'tambah barang masuk dulu',
+            'max' => 'Kebanyakan dawg'
         ]);
 
         if($validator->fails()){

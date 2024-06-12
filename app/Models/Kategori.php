@@ -13,18 +13,4 @@ class Kategori extends Model
         'category',
         'description',
     ];
-
-    public function getCategoryAttribute($value)
-    {
-        switch ($value) {
-            case 'A':
-                return 'ALAT';
-            case 'M':
-                return 'MODAL';
-            case 'BHP':
-                return 'BARANG HABIS PAKAI';
-            case 'BTHP':
-                return 'BARANG TIDAK HABIS PAKAI';
-        }
-    }
 }

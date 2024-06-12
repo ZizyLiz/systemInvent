@@ -13,10 +13,24 @@ class ProductsInController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $productsIn = ProductsIn::latest()->paginate();
-        // dd($productsIn);
+        if ($request->search) {
+            $productsIn = DB::table('products_in')
+                ->leftJoin('product', 'product.id', '=', 'products_in.product_id')
+                ->select('products_in.id','products_in.tgl_masuk', 'products_in.qty_masuk', 'products_in.product_id', 'product.title')
+                ->where('products_in.id', 'like', '%' . $request->search . '%')
+                ->orWhere('products_in.tgl_masuk', 'like', '%' . $request->search . '%')
+                ->orWhere('product.title', 'like', '%' . $request->search . '%')
+                ->orderByDesc('products_in.id')
+                ->paginate(5);
+        } else {
+            $productsIn = DB::table('products_in')
+            ->leftJoin('product', 'product.id', '=', 'products_in.product_id')
+            ->select('products_in.id','products_in.tgl_masuk', 'products_in.qty_masuk', 'products_in.product_id', 'product.title')
+            ->orderByDesc('products_in.id')
+            ->paginate(5);
+        }
         return view('productsIn.index', compact('productsIn'));
     }
 
@@ -34,17 +48,26 @@ class ProductsInController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'tgl_masuk' => 'required',
-            'qty_masuk' => 'required',
-            'product_id' => 'required'
+        $validator = $request->validate([
+            'tgl_masuk' => ['required', 'date'],
+            'qty_masuk' => ['required', 'numeric', 'min:1'],
+            'product_id' => ['required', 'numeric']
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        } else{
-            ProductsIn::create($request->all());
-            return redirect()->route('productsIn.index')->with(['success' => 'Data berhasil disimpan']);
+        DB::beginTransaction();
+        try{
+            $productIn = new ProductsIn();
+            $productIn->tgl_masuk = $request->tgl_masuk;
+            $productIn->qty_masuk = $request->qty_masuk;
+            $productIn->product_id = $request->product_id;
+            $productIn->save();
+
+            DB::commit();
+            return redirect()->route('productsIn.index')->with(['success'=>'Berhasil menambahkan data']);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return back()->with(['error'=>$e->getMessage()])->withInput();
         }
     }
 
@@ -72,14 +95,12 @@ class ProductsInController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = $request->validate([
             'tgl_masuk' => 'required',
             'qty_masuk' => 'required',
             'product_id' => 'required',
         ]);
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+
         DB::beginTransaction();
         try{
             $productIn = ProductsIn::findOrFail($id);
@@ -89,7 +110,7 @@ class ProductsInController extends Controller
         } 
         catch(\Exception $e){
             DB::rollBack();
-            return back()->with(['error' => $e->getMessage()]);
+            return back()->with(['error' => $e->getMessage()])->withInput();
         }
     }
 

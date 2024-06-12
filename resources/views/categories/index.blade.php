@@ -37,6 +37,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- {{dd($categories)}} --}}
                             @forelse ($categories as $cat)
                                 <tr>
                                     <td class="text-center">{{$no+=1}}</td>

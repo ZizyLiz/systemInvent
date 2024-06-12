@@ -16,15 +16,16 @@ class KategoriController extends Controller
     {
         $no = 0;
         if ($request->search){
-            $categories = DB::table('category')->select('id','description','category')->where('id','like','%'.$request->search.'%')
+            $categories = DB::table('category')->select('id','description', DB::raw('namakategori(category) as category'))->where('id','like','%'.$request->search.'%')
             ->orWhere('description','like','%'.$request->search.'%')
-            ->orWhere('category','like','%'.$request->search.'%')
+            ->orWhere( DB::raw('namakategori(category)'),'like','%'.$request->search.'%')
+            ->orderByDesc('id')
             ->paginate(10);
         }else{
-            $categories = Kategori::all();
+            $categories = DB::table('category')->select('id', 'description', DB::raw('namakategori(category) as category'))->latest()->paginate();
             return view('categories.index', compact('categories', 'no'));
         }
-        return view('categories.index',compact('categories', 'no'));
+        return view('categories.index', compact('categories', 'no'));
     }
 
     /**
@@ -51,9 +52,20 @@ class KategoriController extends Controller
             'description' => ['required']
         ]);
 
-        Kategori::create($request->all());
-        
-        return redirect()->route('categories.index')->with(['success' => 'mantap']);
+        DB::beginTransaction();
+        try{
+            $category = new Kategori();
+            $category->category = $request->category;
+            $category->description = $request->description;
+            $category->save();
+
+            DB::commit();
+            return redirect()->route('categories.index')->with(['success' => 'mantap']);
+        }
+        catch(\Exception $e){
+            DB::rollBack();
+            return back()->with(['error' => $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -85,10 +97,16 @@ class KategoriController extends Controller
             'description' => ['required']
         ]);
 
-        $category = Kategori::findOrFail($id);
-
-        $category->update($request->all());
-        return redirect()->route('categories.index')->with(['success' => 'mantap']);
+        DB::beginTransaction();
+        try{
+            $category = Kategori::findOrFail($id);
+            $category->Update($request->all());
+            DB::commit();
+            return redirect()->route('categories.index')->with(['success' => 'mantap']);
+        }
+        catch(\Exception $e){
+            return back()->with(['error'=>$e->getMessage()])->withInput();
+        }
     }
 
     /**

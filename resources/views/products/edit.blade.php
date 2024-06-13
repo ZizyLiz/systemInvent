@@ -37,9 +37,9 @@
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">KATEGORI</label>
                                 <select class="form-control" name="category" aria-label="Default select example">
-                                    <option value="{{$product->category}}">--Pilih--</option>
+                                    {{-- <option value="{{$product->category}}" >--Pilih--</option> --}}
                                     @foreach ($category as $v)
-                                        <option value="{{$v->id}}">{{$v->category}}</option>
+                                        <option value="{{$v->id}}"{{old('category') == $v->id ? 'selected' : ''}}>{{$v->category . " - " .$v->description}}</option>
                                     @endforeach
                                 </select>
                                 @error('title')

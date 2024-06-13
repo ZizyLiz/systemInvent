@@ -87,7 +87,7 @@ class ProductController extends Controller
             $productIn->save();
         }
     
-        return redirect()->route('products.index')->with(['success' => 'pepek']);
+        return redirect()->route('products.index')->with(['success' => 'DITAMBAH']);
     }
 
     /**

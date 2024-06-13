@@ -36,8 +36,8 @@ class KategoriController extends Controller
         $value = [
             'A' => 'ALAT',
             'M' => 'MODAL',
-            'BHP' => 'BARANG HABIS PAKAI',
-            'BTHP' => 'BARANG TIDAK HABIS PAKAI'
+            'BHP' => 'BAHAN HABIS PAKAI',
+            'BTHP' => 'BAHAN TIDAK HABIS PAKAI'
         ];
         return view('categories.create',compact('value'));
     }
@@ -102,7 +102,7 @@ class KategoriController extends Controller
             $category = Kategori::findOrFail($id);
             $category->Update($request->all());
             DB::commit();
-            return redirect()->route('categories.index')->with(['success' => 'mantap']);
+            return redirect()->route('categories.index')->with(['success' => 'BERHASIL DIUBAH']);
         }
         catch(\Exception $e){
             return back()->with(['error'=>$e->getMessage()])->withInput();

@@ -43,12 +43,12 @@
 
                             <div class="form-group mb-3">
                                 <label class="font-weight-bold">QUANTITY</label>
-                                <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                    name="qty_masuk" value="{{ old('quantity', $productIn->qty_masuk) }}"
+                                <input type="number" class="form-control @error('qty_masuk') is-invalid @enderror"
+                                    name="qty_masuk" value="{{ old('qty_masuk', $productIn->qty_masuk) }}"
                                     placeholder="Masukkan Stock Product">
 
-                                <!-- error message untuk quantity -->
-                                @error('quantity')
+                                <!-- error message untuk qty_masuk -->
+                                @error('qty_masuk')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
                                     </div>

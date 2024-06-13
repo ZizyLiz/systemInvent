@@ -26,9 +26,9 @@
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">Product</label>
                             <select class="form-control" name="product_id" aria-label="Default select example">
-                                <option value="">--Pilih--</option>
+                                {{-- <option value="">--Pilih--</option> --}}
                                 @foreach ($product as $v)
-                                    <option value="{{ $v->id }}">{{ $v->title }}</option>
+                                    <option value="{{ $v->id }}" {{old('product_id') == $v->id ? 'selected' : ''}}>{{ $v->title }}</option>
                                 @endforeach
                             </select>
                             @error('title')
@@ -40,10 +40,10 @@
 
                         <div class="form-group mb-3">
                             <label class="font-weight-bold">QUANTITY</label>
-                            <input type="number" class="form-control @error('quantity') is-invalid @enderror" name="qty_masuk" value="{{ old('') }}" placeholder="Masukkan Stock Product">
+                            <input type="number" class="form-control @error('qty_masuk') is-invalid @enderror" name="qty_masuk" value="{{ old('qty_masuk') }}" placeholder="Masukkan Stock Product">
 
                             <!-- error message untuk quantity -->
-                            @error('quantity')
+                            @error('qty_masuk')
                                 <div class="alert alert-danger mt-2">
                                     {{ $message }}
                                 </div>

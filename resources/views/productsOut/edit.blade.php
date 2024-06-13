@@ -33,7 +33,12 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="" class="font-weight-bold">QUANTITY</label>
-                                <input type="number" class="form-control @error('quantity') is-invalid @enderror" name="qty_keluar" value="{{old('qty_keluar', $productOut->qty_keluar)}}" placeholder="Masukkan Jumlah Product">
+                                <input type="number" name="qty_keluar" class="form-control @error('quantity') is-invalid @enderror"  value="{{old('qty_keluar', $productOut->qty_keluar)}}" placeholder="Masukkan Jumlah Product">
+                                @error('qty_keluar')
+                                <div class="alert alert-danger mt-2">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                             </div>
 
                             <button type="submit" class="btn btn-md btn-primary me-3">UPDATE</button>

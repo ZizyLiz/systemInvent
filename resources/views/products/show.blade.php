@@ -12,7 +12,7 @@
             <div class="col-md-8">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <h1>{{ $product->id}}</h1>
+
                         <h3>{{ $product->title }}</h3>
                         <hr/>
                         <p>{{ "Rp " . number_format($product->price,2,',','.') }}</p>

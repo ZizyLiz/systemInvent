@@ -52,13 +52,13 @@ class ProductsOutController extends Controller
         $barangMasuk = ProductsIn::where('product_id', $request->product_id)->latest()->first();
         $sisaStock = Product::findOrFail($request->product_id)->stock;
         $validate = $request->validate( [
-            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : ''],
+            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after_or_equal:' . $barangMasuk->tgl_masuk : ''],
             'qty_keluar' => ['required','numeric', 'min:0', 'max:'.$sisaStock ],
             'product_id' => ['required', 'numeric', 'exists:products_in,product_id'],
         ],[
             'required' => 'This field is required',
             'min' => 'Value minimal :min',
-            'after' => 'tanggal mu salah gobloug',
+            'after' => 'tanggal mu salah',
             'exists' => 'tambah barang masuk dulu',
             'max' => 'Kebanyakan dawg'
         ]);
@@ -105,23 +105,20 @@ class ProductsOutController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $barangMasuk = ProductsIn::where('product_id', $request->id)->latest()->first();
+        $barangMasuk = ProductsIn::where('product_id', $request->product_id)->latest()->first();
         $sisaStock = Product::findOrFail($request->product_id)->stock;
-        $validator = Validator::make($request->all(), [
-            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after:' . $barangMasuk->tgl_masuk : ''],
-            'qty_keluar' => ['required', 'numeric', 'max:'.$sisaStock],
+        $validator = $request->validate([
+            'tgl_keluar' => ['required', 'date', $barangMasuk ? 'after_or_equal:' . $barangMasuk->tgl_masuk : ''],
+            'qty_keluar' => ['required', 'numeric', 'min:1' ,'max:'.$sisaStock],
             'product_id' => ['required', 'numeric', 'exists:products_in,product_id'],
         ],[
             'required' => 'This field is required',
             'min' => 'Value minimal :min',
-            'after' => 'tanggal mu salah gobloug',
+            'after' => 'tanggal mu salah',
             'exists' => 'tambah barang masuk dulu',
-            'max' => 'Kebanyakan dawg'
+            'max' => 'Kebanyakan'
         ]);
 
-        if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
         DB::beginTransaction();
         try{
             $productOut = ProductsOut::findOrFail($id);

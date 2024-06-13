@@ -52,6 +52,8 @@ class ProductsInController extends Controller
             'tgl_masuk' => ['required', 'date'],
             'qty_masuk' => ['required', 'numeric', 'min:1'],
             'product_id' => ['required', 'numeric']
+        ],[
+            'min' => 'Must be Positive'
         ]);
 
         DB::beginTransaction();
@@ -97,8 +99,10 @@ class ProductsInController extends Controller
     {
         $validator = $request->validate([
             'tgl_masuk' => 'required',
-            'qty_masuk' => 'required',
+            'qty_masuk' => 'required | numeric | min:1',
             'product_id' => 'required',
+        ],[
+            'min' => 'Must greater than :min'
         ]);
 
         DB::beginTransaction();
